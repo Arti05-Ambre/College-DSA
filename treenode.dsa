@@ -1,0 +1,60 @@
+  #include<stdio.h>
+#include<stdlib.h>
+
+struct TreeNode{
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+struct TreeNode* createNode(int val){
+    struct TreeNode* node = (struct TreeNode*) malloc(sizeof(struct TreeNode));
+    node->val = val;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+struct TreeNode* insert(struct TreeNode* node, int val){
+    if(node == NULL) return createNode(val);
+    if(val < node->val) node->left = insert(node->left, val);
+    else node->right = insert(node->right, val);
+    return node;
+}
+
+struct TreeNode* search(struct TreeNode* node, int val){
+    if(node == NULL || node->val == val) return node;
+    if(val < node->val) return search(node->left, val);
+    else return search(node->right, val);
+}
+
+void inorder(struct TreeNode* node){
+    if(node == NULL) return;
+    inorder(node->left);
+    printf("%d ", node->val);
+    inorder(node->right);
+}
+
+void postorder(struct TreeNode* node){
+    if(node == NULL) return;
+    postorder(node->left);
+    postorder(node->right);
+    printf("%d ", node->val);
+}
+void preorder(struct TreeNode* node){
+    if(node == NULL) return;
+    printf("%d ", node->val);
+    preorder(node->left);
+    preorder(node->right);
+    
+}
+
+void destroy(struct TreeNode* node){
+    if(node){
+        destroy(node->left);
+        destroy(node->right);
+        free(node);
+    }
+}
+
+
